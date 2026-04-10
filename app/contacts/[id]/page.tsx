@@ -7,14 +7,16 @@ import {
   ArrowLeft, Mail, Phone, Building2, MessageCircle,
   Edit2, CalendarClock, Handshake,
   PhoneCall, MessageSquare, MailIcon, Users, MoreHorizontal, Plus,
+  Sparkles,
 } from 'lucide-react'
 import TagBadge from '@/components/TagBadge'
 import Avatar from '@/components/Avatar'
 import DeleteContactButton from '@/components/DeleteContactButton'
 import DeleteInteractionButton from '@/components/DeleteInteractionButton'
 import InteractionModal from '@/components/InteractionModal'
+import AiSuggestionPanel from '@/components/AiSuggestionPanel'
 import { formatDate, formatCadence, formatDaysAgo } from '@/lib/utils'
-import type { ContactWithStatus, Interaction } from '@/types'
+import type { ContactWithStatus, Interaction, AiStatusResponse } from '@/types'
 
 const INTERACTION_ICONS: Record<string, React.ReactNode> = {
   call:        <PhoneCall size={14} />,
@@ -41,6 +43,8 @@ export default function ContactDetailPage() {
   const [interactions, setInteractions] = useState<Interaction[]>([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
+  const [aiAvailable, setAiAvailable] = useState(false)
+  const [showSuggestion, setShowSuggestion] = useState(false)
 
   async function load() {
     try {
@@ -65,6 +69,13 @@ export default function ContactDetailPage() {
       }
     })
   }, [id, searchParams])
+
+  useEffect(() => {
+    fetch('/api/ai/status')
+      .then((r) => r.json())
+      .then((data: AiStatusResponse) => setAiAvailable(data.available))
+      .catch(() => setAiAvailable(false))
+  }, [])
 
   if (loading) {
     return (
@@ -138,6 +149,15 @@ export default function ContactDetailPage() {
 
           {/* Actions */}
           <div className="flex items-center gap-2 shrink-0">
+            {aiAvailable && (
+              <button
+                onClick={() => setShowSuggestion((prev) => !prev)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-brand-50 text-brand-600 rounded-lg hover:bg-brand-100 transition-colors border border-brand-200"
+              >
+                <Sparkles size={14} />
+                Suggest
+              </button>
+            )}
             <button
               onClick={() => setShowModal(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors"
@@ -174,6 +194,13 @@ export default function ContactDetailPage() {
           )}
         </div>
       </div>
+
+      {/* AI Suggestion Panel */}
+      {showSuggestion && contact && (
+        <div className="mb-4">
+          <AiSuggestionPanel contact={contact} />
+        </div>
+      )}
 
       {/* Contact info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
