@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, notFound } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft, Mail, Phone, Building2, MessageCircle,
@@ -35,6 +35,7 @@ const INTERACTION_COLORS: Record<string, string> = {
 export default function ContactDetailPage() {
   const params = useParams()
   const id = params?.id as string
+  const searchParams = useSearchParams()
 
   const [contact, setContact] = useState<ContactWithStatus | null>(null)
   const [interactions, setInteractions] = useState<Interaction[]>([])
@@ -57,7 +58,13 @@ export default function ContactDetailPage() {
     }
   }
 
-  useEffect(() => { load() }, [id])
+  useEffect(() => {
+    load().then(() => {
+      if (searchParams.get('log') === 'true') {
+        setShowModal(true)
+      }
+    })
+  }, [id, searchParams])
 
   if (loading) {
     return (
