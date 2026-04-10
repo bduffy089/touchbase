@@ -40,3 +40,4 @@ touchbase.db-wal
 
 # claude code
 .claude/
+.superpowers/
