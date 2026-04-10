@@ -47,3 +47,17 @@ export interface DashboardData {
   upcomingContacts: ContactWithStatus[]
   recentInteractions: InteractionWithContact[]
 }
+
+export type AiAction = 'suggest-message' | 'parse-linkedin'
+
+export type MessageChannel = 'linkedin' | 'email' | 'text'
+
+export interface ParsedLinkedInContact {
+  name: string
+  company: string | null
+  notes: string | null
+}
+
+export interface AiStatusResponse {
+  available: boolean
+}
