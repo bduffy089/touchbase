@@ -7,7 +7,7 @@ export default function DemoBanner() {
     <div className="bg-indigo-600 text-white text-center text-sm py-1.5 px-4">
       Demo mode — data resets on reload.{' '}
       <a
-        href="https://github.com/YOUR_USERNAME/touchbase"
+        href="https://github.com/bduffy089/touchbase"
         target="_blank"
         rel="noopener noreferrer"
         className="underline underline-offset-2 hover:text-indigo-200 transition-colors"

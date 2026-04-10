@@ -33,7 +33,7 @@ All data lives in a single `touchbase.db` file in the project root. No external 
 node --version  # should print v22.x or higher
 
 # Clone and install
-git clone https://github.com/YOUR_USERNAME/touchbase.git
+git clone https://github.com/bduffy089/touchbase.git
 cd touchbase
 npm install
 
