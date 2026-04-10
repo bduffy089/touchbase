@@ -14,17 +14,19 @@ interface PageProps {
   searchParams: { q?: string; tagId?: string }
 }
 
-export default function ContactsPage({ searchParams }: PageProps) {
-  const db = getDb()
+export default async function ContactsPage({ searchParams }: PageProps) {
+  const db = await getDb()
   const { q = '', tagId = '' } = searchParams
 
-  const rows = getContactsQuery(db, {
+  const rows = (await getContactsQuery(db, {
     q: q || undefined,
     tagId: tagId ? parseInt(tagId) : undefined,
-  }) as any[]
+  })) as any[]
 
   const contacts = rows.map((r) => ({ ...r, tags: parseTagsFromRow(r) })) as ContactWithStatus[]
-  const allTags = (db.prepare('SELECT * FROM tags ORDER BY name COLLATE NOCASE ASC').all() as any[]).map((t) => ({ ...t }))
+  const allTags = ((await db
+    .prepare('SELECT * FROM tags ORDER BY name COLLATE NOCASE ASC')
+    .all()) as any[]).map((t) => ({ ...t }))
 
   return (
     <div className="px-8 py-8">

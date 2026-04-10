@@ -3,11 +3,13 @@ import { getDb } from '@/lib/db'
 
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const db = getDb()
+    const db = await getDb()
     const id = parseInt(params.id)
     if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
-    const result = db.prepare('DELETE FROM interactions WHERE id = ?').run(id)
+    const result = await db
+      .prepare('DELETE FROM interactions WHERE id = ?')
+      .run(id)
     if (result.changes === 0) {
       return NextResponse.json({ error: 'Interaction not found' }, { status: 404 })
     }

@@ -3,8 +3,10 @@ import { getDb } from '@/lib/db'
 
 export async function GET() {
   try {
-    const db = getDb()
-    const tags = db.prepare('SELECT * FROM tags ORDER BY name COLLATE NOCASE ASC').all()
+    const db = await getDb()
+    const tags = await db
+      .prepare('SELECT * FROM tags ORDER BY name COLLATE NOCASE ASC')
+      .all()
     return NextResponse.json(tags)
   } catch (err) {
     console.error(err)
@@ -14,14 +16,16 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const db = getDb()
+    const db = await getDb()
     const { name, color } = await req.json()
 
     if (!name?.trim()) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 })
     }
 
-    const existing = db.prepare('SELECT id FROM tags WHERE name = ?').get(name.trim().toLowerCase())
+    const existing = await db
+      .prepare('SELECT id FROM tags WHERE name = ?')
+      .get(name.trim().toLowerCase())
     if (existing) {
       return NextResponse.json({ error: 'Tag already exists' }, { status: 409 })
     }
@@ -32,11 +36,12 @@ export async function POST(req: NextRequest) {
     ]
     const autoColor = color || TAG_COLORS[Math.floor(Math.random() * TAG_COLORS.length)]
 
-    const result = db.prepare('INSERT INTO tags (name, color) VALUES (?, ?)').run(
-      name.trim().toLowerCase(),
-      autoColor,
-    )
-    const tag = db.prepare('SELECT * FROM tags WHERE id = ?').get(result.lastInsertRowid)
+    const result = await db
+      .prepare('INSERT INTO tags (name, color) VALUES (?, ?)')
+      .run(name.trim().toLowerCase(), autoColor)
+    const tag = await db
+      .prepare('SELECT * FROM tags WHERE id = ?')
+      .get(Number(result.lastInsertRowid))
     return NextResponse.json(tag, { status: 201 })
   } catch (err) {
     console.error(err)

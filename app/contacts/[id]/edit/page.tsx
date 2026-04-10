@@ -11,12 +11,12 @@ interface PageProps {
   params: { id: string }
 }
 
-export default function EditContactPage({ params }: PageProps) {
-  const db = getDb()
+export default async function EditContactPage({ params }: PageProps) {
+  const db = await getDb()
   const id = parseInt(params.id)
   if (isNaN(id)) notFound()
 
-  const row = getContactByIdQuery(db, id) as any
+  const row = (await getContactByIdQuery(db, id)) as any
   if (!row) notFound()
 
   const contact = { ...row, tags: parseTagsFromRow(row) }

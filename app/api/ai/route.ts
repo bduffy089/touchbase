@@ -61,16 +61,16 @@ async function handleSuggestMessage(body: Record<string, unknown>) {
     )
   }
 
-  const db = getDb()
-  const row = getContactByIdQuery(db, contactId) as Record<string, unknown> | undefined
+  const db = await getDb()
+  const row = (await getContactByIdQuery(db, contactId)) as Record<string, unknown> | undefined
   if (!row) {
     return NextResponse.json({ error: 'Contact not found' }, { status: 404 })
   }
 
   const contact = { ...row, tags: parseTagsFromRow(row) } as ContactWithStatus
-  const interactions = db
+  const interactions = (await db
     .prepare('SELECT * FROM interactions WHERE contact_id = ? ORDER BY date DESC LIMIT 3')
-    .all(contactId) as unknown as Interaction[]
+    .all(contactId)) as unknown as Interaction[]
 
   const { system, user } = buildSuggestMessagePrompt(contact, interactions, channel)
 

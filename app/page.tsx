@@ -16,11 +16,10 @@ const INTERACTION_ICONS = {
   other:      <MoreHorizontal size={13} />,
 }
 
-export default function DashboardPage() {
-  const db = getDb()
+export default async function DashboardPage() {
+  const db = await getDb()
 
-  // All contacts with status
-  const rows = getContactsQuery(db) as any[]
+  const rows = (await getContactsQuery(db)) as any[]
   const contacts = rows.map((r) => ({ ...r, tags: parseTagsFromRow(r) })) as ContactWithStatus[]
 
   const overdueContacts = contacts
@@ -33,14 +32,15 @@ export default function DashboardPage() {
 
   const totalContacts = contacts.length
 
-  // Recent interactions
-  const recentInteractions = db.prepare(`
-    SELECT i.*, c.name AS contact_name
-    FROM interactions i
-    JOIN contacts c ON c.id = i.contact_id
-    ORDER BY i.date DESC, i.created_at DESC
-    LIMIT 8
-  `).all() as unknown as InteractionWithContact[]
+  const recentInteractions = (await db
+    .prepare(
+      `SELECT i.*, c.name AS contact_name
+       FROM interactions i
+       JOIN contacts c ON c.id = i.contact_id
+       ORDER BY i.date DESC, i.created_at DESC
+       LIMIT 8`,
+    )
+    .all()) as unknown as InteractionWithContact[]
 
   return (
     <div className="px-8 py-8 max-w-4xl">

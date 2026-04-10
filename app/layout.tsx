@@ -20,10 +20,10 @@ export const metadata: Metadata = {
   description: 'Your local-first personal CRM',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const db = getDb()
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const db = await getDb()
 
-  const rows = getContactsQuery(db) as any[]
+  const rows = (await getContactsQuery(db)) as any[]
   const contacts = rows.map((r) => ({ ...r, tags: parseTagsFromRow(r) }))
 
   const totalContacts = contacts.length

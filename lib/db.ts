@@ -1,25 +1,72 @@
-import { DatabaseSync, type SQLInputValue } from 'node:sqlite'
-import path from 'node:path'
+import { createClient, type Client, type InValue } from '@libsql/client'
 
-const globalForDb = globalThis as unknown as { __touchbaseDb: DatabaseSync }
+export type SqlArg = InValue
 
-export function getDb(): DatabaseSync {
-  if (!globalForDb.__touchbaseDb) {
-    const dbPath = process.env.VERCEL === '1'
-      ? '/tmp/touchbase.db'
-      : path.join(process.cwd(), 'touchbase.db')
-    globalForDb.__touchbaseDb = new DatabaseSync(dbPath, {
-      enableForeignKeyConstraints: true,
-    })
-    globalForDb.__touchbaseDb.exec('PRAGMA journal_mode = WAL')
-    initializeSchema(globalForDb.__touchbaseDb)
-    seedIfEmpty(globalForDb.__touchbaseDb)
+class Db {
+  constructor(private client: Client) {}
+
+  async exec(sql: string): Promise<void> {
+    await this.client.executeMultiple(sql)
   }
-  return globalForDb.__touchbaseDb
+
+  prepare(sql: string): PreparedStatement {
+    return new PreparedStatement(this.client, sql)
+  }
+
+  raw(): Client {
+    return this.client
+  }
 }
 
-function initializeSchema(db: DatabaseSync) {
-  db.exec(`
+class PreparedStatement {
+  constructor(private client: Client, private sql: string) {}
+
+  async all<T = unknown>(...args: SqlArg[]): Promise<T[]> {
+    const result = await this.client.execute({ sql: this.sql, args })
+    return result.rows as unknown as T[]
+  }
+
+  async get<T = unknown>(...args: SqlArg[]): Promise<T | undefined> {
+    const result = await this.client.execute({ sql: this.sql, args })
+    return (result.rows[0] as unknown as T) ?? undefined
+  }
+
+  async run(
+    ...args: SqlArg[]
+  ): Promise<{ lastInsertRowid: bigint | null; changes: number }> {
+    const result = await this.client.execute({ sql: this.sql, args })
+    return {
+      lastInsertRowid: result.lastInsertRowid ?? null,
+      changes: Number(result.rowsAffected),
+    }
+  }
+}
+
+const globalForDb = globalThis as unknown as {
+  __touchbaseDb?: Db
+  __touchbaseInit?: Promise<Db>
+}
+
+export async function getDb(): Promise<Db> {
+  if (globalForDb.__touchbaseDb) return globalForDb.__touchbaseDb
+  if (globalForDb.__touchbaseInit) return globalForDb.__touchbaseInit
+
+  globalForDb.__touchbaseInit = (async () => {
+    const url = process.env.TURSO_DATABASE_URL ?? 'file:touchbase.db'
+    const authToken = process.env.TURSO_AUTH_TOKEN
+    const client = createClient({ url, authToken })
+    const db = new Db(client)
+    await initializeSchema(db)
+    await seedIfEmpty(db)
+    globalForDb.__touchbaseDb = db
+    return db
+  })()
+
+  return globalForDb.__touchbaseInit
+}
+
+async function initializeSchema(db: Db): Promise<void> {
+  await db.exec(`
     CREATE TABLE IF NOT EXISTS contacts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -63,41 +110,36 @@ function initializeSchema(db: DatabaseSync) {
   `)
 }
 
-function seedIfEmpty(db: DatabaseSync) {
-  const row = db.prepare('SELECT COUNT(*) as count FROM contacts').get() as { count: number }
-  if (row.count > 0) return
+async function seedIfEmpty(db: Db): Promise<void> {
+  const row = await db
+    .prepare('SELECT COUNT(*) as count FROM contacts')
+    .get<{ count: number }>()
+  if (row && row.count > 0) return
 
-  // ── Tags ──────────────────────────────────────────────────────────────────
-  const insertTag = db.prepare('INSERT OR IGNORE INTO tags (name, color) VALUES (?, ?)')
   const tagDefs = [
-    { name: 'investor',  color: '#7C3AED' },
-    { name: 'friend',    color: '#10B981' },
+    { name: 'investor', color: '#7C3AED' },
+    { name: 'friend', color: '#10B981' },
     { name: 'colleague', color: '#3B82F6' },
-    { name: 'client',    color: '#F59E0B' },
-    { name: 'mentor',    color: '#EC4899' },
-    { name: 'family',    color: '#EF4444' },
+    { name: 'client', color: '#F59E0B' },
+    { name: 'mentor', color: '#EC4899' },
+    { name: 'family', color: '#EF4444' },
   ]
 
   const tagIds: Record<string, number> = {}
   for (const tag of tagDefs) {
-    const result = insertTag.run(tag.name, tag.color)
-    tagIds[tag.name] = Number(result.lastInsertRowid)
+    const result = await db
+      .prepare('INSERT OR IGNORE INTO tags (name, color) VALUES (?, ?)')
+      .run(tag.name, tag.color)
+    if (result.lastInsertRowid) {
+      tagIds[tag.name] = Number(result.lastInsertRowid)
+    } else {
+      const existing = await db
+        .prepare('SELECT id FROM tags WHERE name = ?')
+        .get<{ id: number }>(tag.name)
+      if (existing) tagIds[tag.name] = Number(existing.id)
+    }
   }
 
-  // ── Contacts ──────────────────────────────────────────────────────────────
-  const insertContact = db.prepare(`
-    INSERT INTO contacts (name, email, phone, company, how_met, notes, cadence_days)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `)
-  const insertContactTag = db.prepare(
-    'INSERT OR IGNORE INTO contact_tags (contact_id, tag_id) VALUES (?, ?)',
-  )
-  const insertInteraction = db.prepare(`
-    INSERT INTO interactions (contact_id, type, note, date)
-    VALUES (?, ?, ?, ?)
-  `)
-
-  // Dates relative to 2026-03-31 for a realistic dashboard
   const contacts = [
     {
       name: 'Sarah Chen',
@@ -110,9 +152,9 @@ function seedIfEmpty(db: DatabaseSync) {
       cadence_days: 90,
       tags: ['investor'],
       interactions: [
-        { type: 'email',     note: 'Sent Q4 update deck. She replied with positive feedback and asked about runway.',   date: '2025-12-21' },
-        { type: 'in-person', note: 'Coffee at Blue Bottle in SF. Discussed Series A timing and market conditions.',     date: '2025-09-15' },
-        { type: 'email',     note: 'Introduced her to the team via email after initial meeting.',                       date: '2025-06-20' },
+        { type: 'email', note: 'Sent Q4 update deck. She replied with positive feedback and asked about runway.', date: '2025-12-21' },
+        { type: 'in-person', note: 'Coffee at Blue Bottle in SF. Discussed Series A timing and market conditions.', date: '2025-09-15' },
+        { type: 'email', note: 'Introduced her to the team via email after initial meeting.', date: '2025-06-20' },
       ],
     },
     {
@@ -126,9 +168,9 @@ function seedIfEmpty(db: DatabaseSync) {
       cadence_days: 30,
       tags: ['friend'],
       interactions: [
-        { type: 'call',      note: 'Quick catch-up. He just got promoted to VP — great news!',          date: '2026-02-24' },
-        { type: 'text',      note: 'Sent him a happy birthday message.',                                date: '2026-01-12' },
-        { type: 'in-person', note: 'Dinner in Chicago during my trip. Great to catch up in person.',   date: '2025-11-30' },
+        { type: 'call', note: 'Quick catch-up. He just got promoted to VP — great news!', date: '2026-02-24' },
+        { type: 'text', note: 'Sent him a happy birthday message.', date: '2026-01-12' },
+        { type: 'in-person', note: 'Dinner in Chicago during my trip. Great to catch up in person.', date: '2025-11-30' },
       ],
     },
     {
@@ -142,9 +184,9 @@ function seedIfEmpty(db: DatabaseSync) {
       cadence_days: 14,
       tags: ['colleague'],
       interactions: [
-        { type: 'email',     note: 'Shared a design systems article. He had great feedback and offered to consult.', date: '2026-03-21' },
-        { type: 'in-person', note: "Lunch in SoHo. He's working on an exciting new fintech product.",               date: '2026-03-07' },
-        { type: 'call',      note: 'Caught up on his freelance work and discussed a potential collaboration.',       date: '2026-02-20' },
+        { type: 'email', note: 'Shared a design systems article. He had great feedback and offered to consult.', date: '2026-03-21' },
+        { type: 'in-person', note: "Lunch in SoHo. He's working on an exciting new fintech product.", date: '2026-03-07' },
+        { type: 'call', note: 'Caught up on his freelance work and discussed a potential collaboration.', date: '2026-02-20' },
       ],
     },
     {
@@ -158,9 +200,9 @@ function seedIfEmpty(db: DatabaseSync) {
       cadence_days: 7,
       tags: ['client'],
       interactions: [
-        { type: 'call',  note: 'Weekly sync. Contract renewal looks very likely for Q2. Legal review in progress.', date: '2026-03-29' },
-        { type: 'email', note: 'Sent revised proposal with updated pricing. Awaiting legal sign-off.',              date: '2026-03-22' },
-        { type: 'call',  note: 'Discovery call — mapped out their integration requirements.',                       date: '2026-03-15' },
+        { type: 'call', note: 'Weekly sync. Contract renewal looks very likely for Q2. Legal review in progress.', date: '2026-03-29' },
+        { type: 'email', note: 'Sent revised proposal with updated pricing. Awaiting legal sign-off.', date: '2026-03-22' },
+        { type: 'call', note: 'Discovery call — mapped out their integration requirements.', date: '2026-03-15' },
       ],
     },
     {
@@ -174,9 +216,9 @@ function seedIfEmpty(db: DatabaseSync) {
       cadence_days: 30,
       tags: ['mentor'],
       interactions: [
-        { type: 'email', note: 'Asked for advice on co-founder equity split. She shared excellent frameworks.',   date: '2026-03-06' },
-        { type: 'call',  note: '30-min call. Discussed go-to-market strategy and hiring plan for Q2.',           date: '2026-01-20' },
-        { type: 'email', note: 'Shared my annual review doc for feedback. Her response was invaluable.',         date: '2025-12-10' },
+        { type: 'email', note: 'Asked for advice on co-founder equity split. She shared excellent frameworks.', date: '2026-03-06' },
+        { type: 'call', note: '30-min call. Discussed go-to-market strategy and hiring plan for Q2.', date: '2026-01-20' },
+        { type: 'email', note: 'Shared my annual review doc for feedback. Her response was invaluable.', date: '2025-12-10' },
       ],
     },
     {
@@ -184,54 +226,66 @@ function seedIfEmpty(db: DatabaseSync) {
       email: 'tombradley@outlook.com',
       phone: '+1 (503) 555-0399',
       company: 'Bradley Woodworks',
-      how_met: "Neighbors in Portland — met at the block party in 2020",
+      how_met: 'Neighbors in Portland — met at the block party in 2020',
       notes:
-        "Runs a custom woodworking business. Great perspective outside of tech. His wife Rachel and our family are close. Hosts great summer BBQs.",
+        'Runs a custom woodworking business. Great perspective outside of tech. His wife Rachel and our family are close. Hosts great summer BBQs.',
       cadence_days: 90,
       tags: ['friend'],
       interactions: [
-        { type: 'in-person', note: 'BBQ at his place. Great evening with the families.',                date: '2026-02-14' },
-        { type: 'call',      note: "New Year catch-up. He's expanding his workshop space.",             date: '2026-01-01' },
-        { type: 'text',      note: 'Checked in after he mentioned a minor health scare.',               date: '2025-11-15' },
+        { type: 'in-person', note: 'BBQ at his place. Great evening with the families.', date: '2026-02-14' },
+        { type: 'call', note: "New Year catch-up. He's expanding his workshop space.", date: '2026-01-01' },
+        { type: 'text', note: 'Checked in after he mentioned a minor health scare.', date: '2025-11-15' },
       ],
     },
   ]
 
-  db.exec('BEGIN')
+  const tx = await db.raw().transaction('write')
   try {
     for (const contact of contacts) {
-      const result = insertContact.run(
-        contact.name,
-        contact.email ?? null,
-        contact.phone ?? null,
-        contact.company ?? null,
-        contact.how_met ?? null,
-        contact.notes ?? null,
-        contact.cadence_days,
-      )
+      const result = await tx.execute({
+        sql: `INSERT INTO contacts (name, email, phone, company, how_met, notes, cadence_days)
+              VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        args: [
+          contact.name,
+          contact.email ?? null,
+          contact.phone ?? null,
+          contact.company ?? null,
+          contact.how_met ?? null,
+          contact.notes ?? null,
+          contact.cadence_days,
+        ],
+      })
       const contactId = Number(result.lastInsertRowid)
 
       for (const tagName of contact.tags) {
-        if (tagIds[tagName]) insertContactTag.run(contactId, tagIds[tagName])
+        if (tagIds[tagName]) {
+          await tx.execute({
+            sql: 'INSERT OR IGNORE INTO contact_tags (contact_id, tag_id) VALUES (?, ?)',
+            args: [contactId, tagIds[tagName]],
+          })
+        }
       }
 
       for (const interaction of contact.interactions) {
-        insertInteraction.run(contactId, interaction.type, interaction.note, interaction.date)
+        await tx.execute({
+          sql: 'INSERT INTO interactions (contact_id, type, note, date) VALUES (?, ?, ?, ?)',
+          args: [contactId, interaction.type, interaction.note, interaction.date],
+        })
       }
     }
-    db.exec('COMMIT')
+    await tx.commit()
   } catch (err) {
-    db.exec('ROLLBACK')
+    await tx.rollback()
     throw err
   }
 }
 
 // ── Query helpers ──────────────────────────────────────────────────────────────
 
-export function getContactsQuery(
-  db: DatabaseSync,
+export async function getContactsQuery(
+  db: Db,
   filter?: { q?: string; tagId?: number },
-): unknown[] {
+): Promise<unknown[]> {
   let sql = `
     SELECT
       c.*,
@@ -247,7 +301,7 @@ export function getContactsQuery(
     LEFT JOIN tags          t  ON t.id          = ct.tag_id
   `
   const conditions: string[] = []
-  const params: SQLInputValue[] = []
+  const params: SqlArg[] = []
 
   if (filter?.q) {
     conditions.push('(c.name LIKE ? OR c.company LIKE ? OR c.email LIKE ?)')
@@ -265,7 +319,7 @@ export function getContactsQuery(
   return db.prepare(sql).all(...params)
 }
 
-export function getContactByIdQuery(db: DatabaseSync, id: number): unknown {
+export async function getContactByIdQuery(db: Db, id: number): Promise<unknown> {
   return db
     .prepare(
       `SELECT
@@ -285,3 +339,5 @@ export function getContactByIdQuery(db: DatabaseSync, id: number): unknown {
     )
     .get(id)
 }
+
+export type { Db }
