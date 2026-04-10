@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
 import DemoBanner from '@/components/DemoBanner'
+import CommandPalette from '@/components/CommandPalette'
 import { getDb, getContactsQuery } from '@/lib/db'
 import { parseTagsFromRow } from '@/lib/utils'
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.variable}>
       <body>
         <DemoBanner />
+        <CommandPalette />
         <div className="flex min-h-screen">
           <Sidebar totalContacts={totalContacts} overdueCount={overdueCount} />
           <main className="flex-1 ml-56 min-h-screen">
