@@ -99,13 +99,32 @@ async function handleParseLinkedIn(body: Record<string, unknown>) {
     maxOutputTokens: 2000,
   })
 
-  try {
-    const parsed = JSON.parse(result.text)
-    return NextResponse.json(parsed)
-  } catch {
+  const extracted = extractJson(result.text)
+  if (!extracted) {
     return NextResponse.json(
       { error: 'Failed to parse AI response', raw: result.text },
       { status: 500 },
     )
   }
+  return NextResponse.json(extracted)
+}
+
+function extractJson(text: string): unknown | null {
+  const cleaned = text
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/i, '')
+    .trim()
+
+  try {
+    return JSON.parse(cleaned)
+  } catch {}
+
+  const firstBrace = cleaned.indexOf('{')
+  const lastBrace = cleaned.lastIndexOf('}')
+  if (firstBrace !== -1 && lastBrace > firstBrace) {
+    try {
+      return JSON.parse(cleaned.slice(firstBrace, lastBrace + 1))
+    } catch {}
+  }
+  return null
 }
