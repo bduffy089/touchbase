@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
-import { Plus, UserX } from 'lucide-react'
+import { Plus, UserX, FileDown } from 'lucide-react'
 import { Suspense } from 'react'
 import { getDb, getContactsQuery } from '@/lib/db'
 import { parseTagsFromRow, formatDaysAgo, formatCadence } from '@/lib/utils'
@@ -38,13 +38,22 @@ export default function ContactsPage({ searchParams }: PageProps) {
               {q && ` matching "${q}"`}
             </p>
           </div>
-          <Link
-            href="/contacts/new"
-            className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-xl text-sm font-semibold hover:bg-brand-600 transition-colors"
-          >
-            <Plus size={16} />
-            Add Contact
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/contacts/import"
+              className="flex items-center gap-2 px-4 py-2 text-brand-600 border border-brand-200 rounded-xl text-sm font-semibold hover:bg-brand-50 transition-colors"
+            >
+              <FileDown size={16} />
+              Import
+            </Link>
+            <Link
+              href="/contacts/new"
+              className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-xl text-sm font-semibold hover:bg-brand-600 transition-colors"
+            >
+              <Plus size={16} />
+              Add Contact
+            </Link>
+          </div>
         </div>
 
         {/* Search + Filter */}
