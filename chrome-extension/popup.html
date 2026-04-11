@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TouchBase Settings</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fefce8;
+      color: #1c1917;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e7e5e4;
+    }
+
+    .header svg {
+      flex-shrink: 0;
+    }
+
+    .header h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #292524;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #78716c;
+      margin-top: 2px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #57534e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #d6d3d1;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #1c1917;
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #b45309;
+      box-shadow: 0 0 0 2px rgba(180, 83, 9, 0.15);
+    }
+
+    .field { margin-bottom: 16px; }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #b45309;
+      color: #fefce8;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover { background: #92400e; }
+
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      text-align: center;
+      color: #16a34a;
+      min-height: 20px;
+    }
+
+    .status.error { color: #dc2626; }
+
+    .help {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #e7e5e4;
+      font-size: 12px;
+      color: #78716c;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <line x1="19" y1="8" x2="19" y2="14"/>
+      <line x1="16" y1="11" x2="22" y2="11"/>
+    </svg>
+    <div>
+      <h1>TouchBase</h1>
+      <p>LinkedIn Import Settings</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="url">TouchBase URL</label>
+    <input type="url" id="url" placeholder="http://localhost:3000">
+  </div>
+
+  <div class="field">
+    <label for="apiKey">API Key</label>
+    <input type="password" id="apiKey" placeholder="Your TOUCHBASE_API_KEY">
+  </div>
+
+  <button class="btn" id="save">Save Settings</button>
+  <div class="status" id="status"></div>
+
+  <div class="help">
+    Visit any LinkedIn profile and click the <strong>"Add to TouchBase"</strong> button in the bottom-right corner to import.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

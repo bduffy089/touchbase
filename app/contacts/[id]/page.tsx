@@ -15,6 +15,8 @@ import DeleteContactButton from '@/components/DeleteContactButton'
 import DeleteInteractionButton from '@/components/DeleteInteractionButton'
 import InteractionModal from '@/components/InteractionModal'
 import AiSuggestionPanel from '@/components/AiSuggestionPanel'
+import AiInsightsPanel from '@/components/AiInsightsPanel'
+import CadenceMismatchBanner from '@/components/CadenceMismatchBanner'
 import { formatDate, formatCadence, formatDaysAgo } from '@/lib/utils'
 import type { ContactWithStatus, Interaction, AiStatusResponse } from '@/types'
 
@@ -195,10 +197,24 @@ export default function ContactDetailPage() {
         </div>
       </div>
 
+      {/* Cadence Mismatch Banner */}
+      {aiAvailable && contact && (
+        <div className="mb-4">
+          <CadenceMismatchBanner contact={contact} onCadenceUpdated={load} />
+        </div>
+      )}
+
       {/* AI Suggestion Panel */}
       {showSuggestion && contact && (
         <div className="mb-4">
           <AiSuggestionPanel contact={contact} />
+        </div>
+      )}
+
+      {/* AI Insights Panel */}
+      {aiAvailable && contact && (
+        <div className="mb-4">
+          <AiInsightsPanel contact={contact} />
         </div>
       )}
 

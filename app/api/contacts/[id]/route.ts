@@ -68,6 +68,33 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  try {
+    const db = await getDb()
+    const id = parseInt(params.id)
+    if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+
+    const existing = await db.prepare('SELECT id FROM contacts WHERE id = ?').get(id)
+    if (!existing) return NextResponse.json({ error: 'Contact not found' }, { status: 404 })
+
+    const body = await req.json()
+    const { cadence_days } = body
+    if (typeof cadence_days !== 'number' || cadence_days < 1) {
+      return NextResponse.json({ error: 'cadence_days must be a positive number' }, { status: 400 })
+    }
+
+    await db
+      .prepare(`UPDATE contacts SET cadence_days = ?, updated_at = datetime('now') WHERE id = ?`)
+      .run(cadence_days, id)
+
+    const row = (await getContactByIdQuery(db, id)) as any
+    return NextResponse.json({ ...row, tags: parseTagsFromRow(row) })
+  } catch (err) {
+    console.error(err)
+    return NextResponse.json({ error: 'Failed to update cadence' }, { status: 500 })
+  }
+}
+
 export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const db = await getDb()

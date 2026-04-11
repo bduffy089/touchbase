@@ -1,0 +1,70 @@
+.touchbase-import-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #b45309;
+  color: #fefce8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(180, 83, 9, 0.35), 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.touchbase-import-btn:hover {
+  background: #92400e;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(180, 83, 9, 0.4), 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.touchbase-import-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.3);
+}
+
+.touchbase-import-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.touchbase-import-btn svg {
+  flex-shrink: 0;
+}
+
+/* Toast */
+.touchbase-toast {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  z-index: 100000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #1c1917;
+  color: #fefce8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  max-width: 340px;
+}
+
+.touchbase-toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.touchbase-toast--error {
+  background: #7f1d1d;
+  color: #fecaca;
+}

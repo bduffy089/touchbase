@@ -30,7 +30,7 @@ Feature ideas generated 2026-04-10. Organized by effort. Check off as shipped.
 
 ## Ambitious (weekend project each)
 
-- [ ] **Chrome extension for LinkedIn** — button on any LinkedIn profile: "Add to TouchBase" — one-click import, no copy/paste. **[QUEUED]**
+- [x] **Chrome extension for LinkedIn** — button on any LinkedIn profile: "Add to TouchBase" — one-click import, no copy/paste.
 - [ ] **Weekly digest email** — every Monday, AI brief: who's overdue, who to prioritize, suggested openers
 - [ ] **Voice notes** — record a voice memo after a call, AI transcribes and summarizes as interaction note
 - [ ] **Contact merge / dedupe** — detect duplicates and offer to merge

@@ -48,7 +48,15 @@ export interface DashboardData {
   recentInteractions: InteractionWithContact[]
 }
 
-export type AiAction = 'suggest-message' | 'parse-linkedin'
+export type AiAction = 'suggest-message' | 'parse-linkedin' | 'insights' | 'suggest-cadence'
+
+export interface CadenceSuggestion {
+  currentCadence: number
+  actualAvgDays: number
+  suggestedCadence: number
+  hasMismatch: boolean
+  suggestion: string
+}
 
 export type MessageChannel = 'linkedin' | 'email' | 'text'
 
