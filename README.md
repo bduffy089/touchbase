@@ -1,60 +1,80 @@
-# TouchBase
+<p align="center">
+  <img src="public/screenshots/dashboard.png" alt="TouchBase Dashboard" width="800" />
+</p>
 
-A local-first personal CRM to help you stay in touch with the people who matter.
+<h1 align="center">TouchBase</h1>
 
-TouchBase tracks your contacts, logs interactions, and nudges you when someone is overdue for a check-in — all without sending your data to the cloud.
+<p align="center">
+  A local-first personal CRM that helps you stay in touch with the people who matter.<br/>
+  Track contacts, log interactions, and get nudged when someone is overdue for a check-in — all without sending your data to the cloud.
+</p>
 
-## Why I built it
+<p align="center">
+  <a href="#features">Features</a> &nbsp;&middot;&nbsp;
+  <a href="#getting-started">Getting Started</a> &nbsp;&middot;&nbsp;
+  <a href="#built-with">Built With</a> &nbsp;&middot;&nbsp;
+  <a href="#license">License</a>
+</p>
 
-Most CRMs are designed for sales teams. I wanted something simple for personal relationships: a place to remember how I met someone, what we last talked about, and when I should reach out again. TouchBase runs entirely on your machine using Node.js's built-in SQLite — no database server, no accounts, no subscriptions.
-
-## Architecture
-
-- **Framework:** Next.js 14 (App Router, server components)
-- **Database:** `node:sqlite` (Node 22+ built-in SQLite)
-- **Styling:** Tailwind CSS with custom design tokens
-- **Icons:** Lucide React
-- **Data model:** Contacts, tags, and timestamped interactions with configurable check-in cadences
-
-All data lives in a single `touchbase.db` file in the project root. No external services required.
+---
 
 ## Features
 
-- Dashboard with overdue/upcoming contact reminders
-- Full CRUD for contacts with tags, notes, and custom cadences
-- Interaction logging (calls, texts, emails, in-person, other)
-- Search and filter by name, company, or tag
-- Seed data for instant demo
+### Smart Dashboard
 
-## Getting started
+See who needs attention at a glance. The dashboard surfaces overdue and upcoming contacts, tracks your interaction stats, and shows recent activity — so you always know who to reach out to next.
+
+<p align="center">
+  <img src="public/screenshots/dashboard.png" alt="Dashboard with overdue contacts and recent activity" width="800" />
+</p>
+
+### Contact Management
+
+Organize your network with tags, notes, and configurable check-in cadences. Log every interaction — calls, emails, texts, in-person — and see the full relationship timeline on each contact's detail page.
+
+<p align="center">
+  <img src="public/screenshots/contacts.png" alt="Contacts grid with tags and status indicators" width="800" />
+</p>
+
+<p align="center">
+  <img src="public/screenshots/contact-detail.png" alt="Contact detail page with interaction history" width="800" />
+</p>
+
+### AI-Powered Outreach
+
+Generate personalized messages for LinkedIn, email, or text based on your relationship context. Import contacts directly from LinkedIn profiles with AI-powered parsing. *(Requires an Anthropic API key.)*
+
+### Command Palette
+
+Hit `Cmd+K` to search contacts, trigger quick actions, and navigate instantly — no clicking required.
+
+### Fully Local
+
+All data lives in a single SQLite file on your machine. No accounts, no subscriptions, no cloud sync. Your relationships are your business.
+
+---
+
+## Getting Started
 
 ```bash
 # Requires Node.js 22+
-node --version  # should print v22.x or higher
-
-# Clone and install
 git clone https://github.com/bduffy089/touchbase.git
 cd touchbase
 npm install
-
-# Run locally
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The database auto-creates with sample contacts on first run.
+Open [localhost:3000](http://localhost:3000). The database seeds itself with sample contacts on first run.
 
-## Live demo
+> **AI features (optional):** Set `ANTHROPIC_API_KEY` in a `.env.local` file to enable AI message suggestions and LinkedIn import.
 
-A stateless demo runs on Vercel. Data resets on each cold start — run locally for persistence.
+---
 
-## Tech decisions
+## Built With
 
-| Choice | Rationale |
-|--------|-----------|
-| `node:sqlite` | Zero-dependency persistence, ships with Node 22+ |
-| Server components | Data fetching at the component level, no client-side waterfall |
-| `force-dynamic` | SQLite reads are fast; always-fresh data is worth the tradeoff |
-| `/tmp` on Vercel | Serverless has no writable project dir; `/tmp` works for demo purposes |
+Next.js 14 &nbsp;&middot;&nbsp; React 18 &nbsp;&middot;&nbsp; TypeScript &nbsp;&middot;&nbsp; Tailwind CSS &nbsp;&middot;&nbsp; SQLite &nbsp;&middot;&nbsp; Claude AI &nbsp;&middot;&nbsp; Lucide Icons
+
+---
 
 ## License
 
