@@ -111,10 +111,18 @@ async function initializeSchema(db: Db): Promise<void> {
 }
 
 async function seedIfEmpty(db: Db): Promise<void> {
-  const row = await db
-    .prepare('SELECT COUNT(*) as count FROM contacts')
-    .get<{ count: number }>()
-  if (row && row.count > 0) return
+  // Atomic seed lock using a meta table. Concurrent cold-starts would
+  // otherwise both pass an empty-check and double-seed.
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS _meta (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
+  `)
+  const lockResult = await db
+    .prepare("INSERT OR IGNORE INTO _meta (key, value) VALUES ('seeded', '1')")
+    .run()
+  if (lockResult.changes === 0) return // Another instance already seeded
 
   const tagDefs = [
     { name: 'investor', color: '#7C3AED' },
