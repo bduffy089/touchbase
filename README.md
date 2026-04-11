@@ -1,6 +1,4 @@
 <p align="center">
-  <img src="public/screenshots/dashboard.png" alt="TouchBase Dashboard" width="800" />
-</p>
 
 <h1 align="center">TouchBase</h1>
 
@@ -27,16 +25,8 @@ Generic CRMs are overkill for personal networking. I wanted something fast, priv
 ### 🤖 AI-Powered Outreach
 Generate personalized LinkedIn messages, emails, or texts based on your actual relationship history. One click — context-aware, not generic.
 
-<p align="center">
-  <img src="public/screenshots/ai-outreach.png" alt="AI Outreach Suggestions" width="800" />
-</p>
-
 ### 📥 LinkedIn Import
 Paste a LinkedIn profile → AI parses it into a structured contact. No manual data entry. Works with single or multiple profiles at once.
-
-<p align="center">
-  <img src="public/screenshots/linkedin-import.png" alt="LinkedIn Import" width="800" />
-</p>
 
 ### 🧠 AI Relationship Insights
 Expand any contact to get instant AI-generated context: days since last touchpoint, key topics from your notes, and suggested conversation openers — streamed in real time.
