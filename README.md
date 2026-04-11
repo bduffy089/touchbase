@@ -53,18 +53,6 @@ Tags, notes, configurable check-in cadences, full interaction timeline (calls, e
 
 ---
 
-## Getting Started
-
-```bash
-# Requires Node.js 22+
-git clone https://github.com/bduffy089/touchbase.git
-cd touchbase
-npm install
-npm run dev
-```
-
-Open [localhost:3000](http://localhost:3000). Seeds with sample contacts on first run.
-
 **AI features:** Add `ANTHROPIC_API_KEY=your_key` to `.env.local` to enable outreach suggestions, relationship insights, and LinkedIn import.
 
 ---
