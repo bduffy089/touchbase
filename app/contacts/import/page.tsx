@@ -111,15 +111,15 @@ export default function LinkedInImportPage() {
     <div className="px-8 py-8 max-w-2xl">
       <Link
         href="/contacts"
-        className="inline-flex items-center gap-1.5 text-sm text-sand-500 hover:text-sand-300 transition-colors mb-6"
+        className="inline-flex items-center gap-1.5 text-sm text-sand-500 hover:text-sand-700 dark:hover:text-sand-300 transition-colors mb-6"
       >
         <ArrowLeft size={15} />
         Back to Contacts
       </Link>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white tracking-tight mb-1">Import from LinkedIn</h1>
-        <p className="text-sm text-sand-400">Paste a LinkedIn profile and AI extracts the contact details automatically</p>
+        <h1 className="text-2xl font-bold text-sand-900 dark:text-white tracking-tight mb-1">Import from LinkedIn</h1>
+        <p className="text-sm text-sand-500 dark:text-sand-400">Paste a LinkedIn profile and AI extracts the contact details automatically</p>
       </div>
 
       {step === 'paste' && (
@@ -141,15 +141,15 @@ export default function LinkedInImportPage() {
           )}
 
           {/* Instructions */}
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mb-5">
+          <div className="bg-sand-50 dark:bg-white/[0.03] border border-sand-200 dark:border-white/[0.06] rounded-xl p-4 mb-5">
             <div className="flex items-center gap-2 mb-3">
               <Linkedin size={15} className="text-[#0077B5]" />
-              <p className="text-sm font-semibold text-sand-200">How to copy from LinkedIn</p>
+              <p className="text-sm font-semibold text-sand-800 dark:text-sand-200">How to copy from LinkedIn</p>
             </div>
-            <ol className="text-sm text-sand-400 space-y-1.5 list-decimal list-inside">
+            <ol className="text-sm text-sand-500 dark:text-sand-400 space-y-1.5 list-decimal list-inside">
               <li>Go to someone&apos;s LinkedIn profile</li>
-              <li>Select all text on the page <span className="text-sand-500">(⌘A / Ctrl+A)</span></li>
-              <li>Copy and paste below <span className="text-sand-500">(⌘C / Ctrl+C)</span></li>
+              <li>Select all text on the page <span className="text-sand-400 dark:text-sand-500">(⌘A / Ctrl+A)</span></li>
+              <li>Copy and paste below <span className="text-sand-400 dark:text-sand-500">(⌘C / Ctrl+C)</span></li>
             </ol>
           </div>
 
@@ -158,11 +158,11 @@ export default function LinkedInImportPage() {
             onChange={(e) => setText(e.target.value)}
             rows={8}
             placeholder="Paste LinkedIn profile text here… Works with single or multiple profiles."
-            className="w-full px-4 py-3 border border-white/[0.08] rounded-xl text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all resize-none mb-4 bg-sand-900/50"
+            className="w-full px-4 py-3 border border-sand-200 dark:border-white/[0.08] rounded-xl text-sm text-sand-800 dark:text-sand-200 placeholder:text-sand-400 dark:placeholder:text-sand-600 focus:outline-none focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all resize-none mb-4 bg-white dark:bg-sand-900/50"
           />
 
           {parseError && (
-            <p className="text-sm text-rose-400 bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg mb-4">{parseError}</p>
+            <p className="text-sm text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20 px-3 py-2 rounded-lg mb-4">{parseError}</p>
           )}
 
           <button
@@ -182,7 +182,7 @@ export default function LinkedInImportPage() {
               </>
             )}
           </button>
-          <p className="text-center text-xs text-sand-600 mt-3">Powered by Claude · Your data stays local</p>
+          <p className="text-center text-xs text-sand-400 dark:text-sand-600 mt-3">Powered by Claude · Your data stays local</p>
         </>
       )}
 
@@ -190,17 +190,17 @@ export default function LinkedInImportPage() {
         <>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-sand-900 dark:text-white">
                 {parsedContacts.length} contact{parsedContacts.length !== 1 ? 's' : ''} parsed
               </h2>
-              <p className="text-sm text-sand-400">Review and edit before importing</p>
+              <p className="text-sm text-sand-500 dark:text-sand-400">Review and edit before importing</p>
             </div>
             <button
               onClick={() => {
                 setStep('paste')
                 setParsedContacts([])
               }}
-              className="text-sm text-sand-500 hover:text-sand-300 transition-colors"
+              className="text-sm text-sand-500 hover:text-sand-700 dark:hover:text-sand-300 transition-colors"
             >
               ← Paste again
             </button>
@@ -212,7 +212,7 @@ export default function LinkedInImportPage() {
               return (
                 <div
                   key={i}
-                  className="bg-sand-900/50 border border-white/[0.06] rounded-xl p-4"
+                  className="bg-white dark:bg-sand-900/50 border border-sand-200 dark:border-white/[0.06] rounded-xl p-4"
                 >
                   <div className="flex items-start gap-3">
                     <Avatar name={contact.name || '?'} size="md" />
@@ -222,7 +222,7 @@ export default function LinkedInImportPage() {
                           value={contact.name}
                           onChange={(e) => updateContact(i, 'name', e.target.value)}
                           placeholder="Name (required)"
-                          className="text-base font-semibold text-white bg-transparent border-b border-transparent hover:border-white/10 focus:border-brand-500/50 focus:outline-none transition-colors pb-0.5 w-full"
+                          className="text-base font-semibold text-sand-900 dark:text-white bg-transparent border-b border-transparent hover:border-sand-200 dark:hover:border-white/10 focus:border-brand-500/50 focus:outline-none transition-colors pb-0.5 w-full"
                         />
                         <span
                           className={`text-[11px] font-medium px-2 py-0.5 rounded-full ml-2 shrink-0 ${
@@ -242,7 +242,7 @@ export default function LinkedInImportPage() {
                             value={contact.company ?? ''}
                             onChange={(e) => updateContact(i, 'company', e.target.value)}
                             placeholder="Company"
-                            className="w-full text-sm text-sand-300 bg-white/[0.04] border border-white/[0.06] rounded-md px-2.5 py-1.5 mt-0.5 focus:outline-none focus:border-brand-500/40 transition-colors"
+                            className="w-full text-sm text-sand-700 dark:text-sand-300 bg-sand-50 dark:bg-white/[0.04] border border-sand-100 dark:border-white/[0.06] rounded-md px-2.5 py-1.5 mt-0.5 focus:outline-none focus:border-brand-500/40 transition-colors"
                           />
                         </div>
                         <div>
@@ -251,7 +251,7 @@ export default function LinkedInImportPage() {
                             value={contact.notes ?? ''}
                             onChange={(e) => updateContact(i, 'notes', e.target.value)}
                             rows={2}
-                            className="w-full text-sm text-sand-300 bg-brand-500/[0.06] border border-brand-500/20 rounded-md px-2.5 py-1.5 mt-0.5 focus:outline-none focus:border-brand-500/40 transition-colors resize-none"
+                            className="w-full text-sm text-sand-700 dark:text-sand-300 bg-brand-500/[0.06] border border-brand-500/20 rounded-md px-2.5 py-1.5 mt-0.5 focus:outline-none focus:border-brand-500/40 transition-colors resize-none"
                           />
                         </div>
                       </div>
@@ -282,7 +282,7 @@ export default function LinkedInImportPage() {
             </button>
             <button
               onClick={() => router.push('/contacts')}
-              className="px-6 py-3 text-sm font-medium text-sand-400 border border-white/[0.08] rounded-xl hover:bg-white/[0.04] transition-colors"
+              className="px-6 py-3 text-sm font-medium text-sand-600 dark:text-sand-400 border border-sand-200 dark:border-white/[0.08] rounded-xl hover:bg-sand-50 dark:hover:bg-white/[0.04] transition-colors"
             >
               Cancel
             </button>
@@ -293,10 +293,10 @@ export default function LinkedInImportPage() {
       {step === 'success' && (
         <div className="text-center py-12">
           <div className="text-5xl mb-4">🎉</div>
-          <h2 className="text-xl font-bold text-white mb-2">
+          <h2 className="text-xl font-bold text-sand-900 dark:text-white mb-2">
             {importedCount} contact{importedCount !== 1 ? 's' : ''} imported!
           </h2>
-          <p className="text-sm text-sand-400 mb-2">They&apos;ve been added to your contacts list.</p>
+          <p className="text-sm text-sand-500 dark:text-sand-400 mb-2">They&apos;ve been added to your contacts list.</p>
 
           {importErrors.length > 0 && (
             <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 mb-6 text-left max-w-md mx-auto">
@@ -322,7 +322,7 @@ export default function LinkedInImportPage() {
                 setImportErrors([])
                 setImportedCount(0)
               }}
-              className="px-5 py-2.5 text-sand-300 border border-white/[0.08] rounded-xl text-sm font-semibold hover:bg-white/[0.04] transition-colors"
+              className="px-5 py-2.5 text-sand-700 dark:text-sand-300 border border-sand-200 dark:border-white/[0.08] rounded-xl text-sm font-semibold hover:bg-sand-50 dark:hover:bg-white/[0.04] transition-colors"
             >
               Import more
             </button>

@@ -86,24 +86,24 @@ export default function AiSuggestionPanel({ contact }: AiSuggestionPanelProps) {
   if (contact.cadence_days) contextItems.push(`${contact.cadence_days}d cadence`)
 
   return (
-    <div className="bg-white rounded-xl border border-sand-100 shadow-card overflow-hidden">
-      <div className="px-4 py-3 border-b border-sand-100 flex items-center justify-between">
+    <div className="bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card dark:shadow-none overflow-hidden">
+      <div className="px-4 py-3 border-b border-sand-100 dark:border-white/[0.06] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles size={14} className="text-brand-500" />
-          <span className="text-sm font-semibold text-sand-900">AI Message Suggestion</span>
+          <span className="text-sm font-semibold text-sand-900 dark:text-white">AI Message Suggestion</span>
         </div>
-        <span className="text-xs text-sand-400">for {contact.name}</span>
+        <span className="text-xs text-sand-400 dark:text-sand-500">for {contact.name}</span>
       </div>
 
-      <div className="flex border-b border-sand-100">
+      <div className="flex border-b border-sand-100 dark:border-white/[0.06]">
         {CHANNELS.map((ch) => (
           <button
             key={ch.value}
             onClick={() => handleChannelChange(ch.value)}
             className={`flex-1 text-center py-2.5 text-sm font-medium transition-colors ${
               channel === ch.value
-                ? 'text-brand-600 border-b-2 border-brand-500'
-                : 'text-sand-400 hover:text-sand-600'
+                ? 'text-brand-600 dark:text-brand-400 border-b-2 border-brand-500'
+                : 'text-sand-400 hover:text-sand-600 dark:hover:text-sand-300'
             }`}
           >
             {ch.label}
@@ -115,23 +115,23 @@ export default function AiSuggestionPanel({ contact }: AiSuggestionPanelProps) {
         {!completion && !isLoading && !error ? (
           <button
             onClick={handleGenerate}
-            className="w-full py-6 text-center text-sm text-brand-500 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors border border-dashed border-brand-200"
+            className="w-full py-6 text-center text-sm text-brand-500 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-500/10 rounded-lg transition-colors border border-dashed border-brand-200 dark:border-brand-500/30"
           >
             <Sparkles size={16} className="inline mr-2" />
             Generate a {channel} message
           </button>
         ) : (
           <>
-            <div className="bg-sand-50 border border-sand-100 rounded-lg p-4 min-h-[80px]">
+            <div className="bg-sand-50 dark:bg-sand-800 border border-sand-100 dark:border-white/[0.06] rounded-lg p-4 min-h-[80px]">
               {isLoading && !completion ? (
                 <div className="flex items-center gap-2 text-sm text-sand-500">
                   <div className="w-2 h-2 bg-brand-500 rounded-full animate-pulse" />
                   Generating...
                 </div>
               ) : error ? (
-                <p className="text-sm text-rose-600">{error}</p>
+                <p className="text-sm text-rose-600 dark:text-rose-400">{error}</p>
               ) : (
-                <p className="text-sm text-sand-800 leading-relaxed whitespace-pre-wrap">
+                <p className="text-sm text-sand-800 dark:text-sand-200 leading-relaxed whitespace-pre-wrap">
                   {completion}
                   {isLoading && (
                     <span className="inline-block w-[5px] h-[15px] bg-brand-500 ml-0.5 animate-pulse rounded-sm align-text-bottom" />
@@ -153,7 +153,7 @@ export default function AiSuggestionPanel({ contact }: AiSuggestionPanelProps) {
                 )}
                 <button
                   onClick={handleGenerate}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sand-600 border border-sand-200 rounded-lg hover:bg-sand-50 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sand-600 dark:text-sand-400 border border-sand-200 dark:border-white/[0.08] rounded-lg hover:bg-sand-50 dark:hover:bg-white/[0.04] transition-colors"
                 >
                   <RefreshCw size={14} />
                   {error ? 'Retry' : 'Regenerate'}
@@ -164,13 +164,13 @@ export default function AiSuggestionPanel({ contact }: AiSuggestionPanelProps) {
         )}
 
         {contextItems.length > 0 && (completion || isLoading) && (
-          <div className="mt-4 pt-3 border-t border-sand-100">
-            <div className="text-[11px] text-sand-400 uppercase tracking-wider mb-1.5">Context used</div>
+          <div className="mt-4 pt-3 border-t border-sand-100 dark:border-white/[0.06]">
+            <div className="text-[11px] text-sand-400 dark:text-sand-500 uppercase tracking-wider mb-1.5">Context used</div>
             <div className="flex flex-wrap gap-1">
               {contextItems.map((item) => (
                 <span
                   key={item}
-                  className="text-[11px] text-sand-500 bg-sand-100 px-2 py-0.5 rounded"
+                  className="text-[11px] text-sand-500 dark:text-sand-400 bg-sand-100 dark:bg-white/[0.06] px-2 py-0.5 rounded"
                 >
                   {item}
                 </span>

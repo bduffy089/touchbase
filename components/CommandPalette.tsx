@@ -158,10 +158,10 @@ export default function CommandPalette() {
 
       <div className="relative flex justify-center pt-[20vh]">
         <div
-          className="w-full max-w-[560px] bg-sand-950 border border-sand-800 rounded-xl shadow-modal overflow-hidden animate-slide-up"
+          className="w-full max-w-[560px] bg-white dark:bg-sand-950 border border-sand-200 dark:border-sand-800 rounded-xl shadow-modal overflow-hidden animate-slide-up"
           onKeyDown={handleKeyDown}
         >
-          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-sand-800">
+          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-sand-200 dark:border-sand-800">
             <Search size={16} className="text-brand-400 shrink-0" />
             <input
               ref={inputRef}
@@ -172,12 +172,12 @@ export default function CommandPalette() {
                 setActiveIndex(0)
               }}
               placeholder="Search contacts, actions, pages..."
-              className="flex-1 bg-transparent text-sand-100 text-[15px] placeholder:text-sand-600 outline-none"
+              className="flex-1 bg-transparent text-sand-900 dark:text-sand-100 text-[15px] placeholder:text-sand-400 dark:placeholder:text-sand-600 outline-none"
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="text-sand-600 hover:text-sand-400 text-xs"
+                className="text-sand-400 dark:text-sand-600 hover:text-sand-600 dark:hover:text-sand-400 text-xs"
               >
                 Clear
               </button>
@@ -192,7 +192,7 @@ export default function CommandPalette() {
             {contactItems.length > 0 && (
               <>
                 <div className="px-3 pt-1 pb-2">
-                  <span className="text-[11px] font-medium text-sand-600 uppercase tracking-wider">
+                  <span className="text-[11px] font-medium text-sand-400 dark:text-sand-600 uppercase tracking-wider">
                     Contacts
                   </span>
                 </div>
@@ -229,7 +229,7 @@ export default function CommandPalette() {
             {actionItems.length > 0 && (
               <>
                 <div className="px-3 pt-3 pb-2">
-                  <span className="text-[11px] font-medium text-sand-600 uppercase tracking-wider">
+                  <span className="text-[11px] font-medium text-sand-400 dark:text-sand-600 uppercase tracking-wider">
                     {q ? 'Actions' : 'Quick Actions'}
                   </span>
                 </div>
@@ -257,7 +257,7 @@ export default function CommandPalette() {
             {pageItems.length > 0 && (
               <>
                 <div className="px-3 pt-3 pb-2">
-                  <span className="text-[11px] font-medium text-sand-600 uppercase tracking-wider">
+                  <span className="text-[11px] font-medium text-sand-400 dark:text-sand-600 uppercase tracking-wider">
                     Navigate
                   </span>
                 </div>

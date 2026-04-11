@@ -40,16 +40,16 @@ export function formatNextDue(daysOverdue: number, cadenceDays: number): string 
 }
 
 const AVATAR_COLORS = [
-  'bg-violet-500/20 text-violet-300',
-  'bg-blue-500/20 text-blue-300',
-  'bg-emerald-500/20 text-emerald-300',
-  'bg-rose-500/20 text-rose-300',
-  'bg-amber-500/20 text-amber-300',
-  'bg-cyan-500/20 text-cyan-300',
-  'bg-fuchsia-500/20 text-fuchsia-300',
-  'bg-indigo-500/20 text-indigo-300',
-  'bg-teal-500/20 text-teal-300',
-  'bg-orange-500/20 text-orange-300',
+  'bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-300',
+  'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-300',
+  'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300',
+  'bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-300',
+  'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-300',
+  'bg-cyan-100 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-300',
+  'bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-300',
+  'bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300',
+  'bg-teal-100 dark:bg-teal-500/20 text-teal-600 dark:text-teal-300',
+  'bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-300',
 ]
 
 export function getAvatarColor(name: string): string {

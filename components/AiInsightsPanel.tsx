@@ -67,27 +67,27 @@ export default function AiInsightsPanel({ contact }: AiInsightsPanelProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-sand-100 shadow-card overflow-hidden">
+    <div className="bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card dark:shadow-none overflow-hidden">
       <button
         onClick={handleToggle}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-sand-50 transition-colors"
+        className="w-full px-4 py-3 flex items-center justify-between hover:bg-sand-50 dark:hover:bg-white/[0.04] transition-colors"
       >
         <div className="flex items-center gap-2">
           <Lightbulb size={14} className="text-amber-500" />
-          <span className="text-sm font-semibold text-sand-900">Relationship Insights</span>
+          <span className="text-sm font-semibold text-sand-900 dark:text-white">Relationship Insights</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-sand-400">AI-powered</span>
+          <span className="text-xs text-sand-400 dark:text-sand-500">AI-powered</span>
           {expanded ? (
-            <ChevronUp size={14} className="text-sand-400" />
+            <ChevronUp size={14} className="text-sand-400 dark:text-sand-500" />
           ) : (
-            <ChevronDown size={14} className="text-sand-400" />
+            <ChevronDown size={14} className="text-sand-400 dark:text-sand-500" />
           )}
         </div>
       </button>
 
       {expanded && (
-        <div className="px-4 pb-4 border-t border-sand-100">
+        <div className="px-4 pb-4 border-t border-sand-100 dark:border-white/[0.06]">
           <div className="mt-3">
             {isLoading && !completion ? (
               <div className="flex items-center gap-2 text-sm text-sand-500 py-2">
@@ -96,10 +96,10 @@ export default function AiInsightsPanel({ contact }: AiInsightsPanelProps) {
               </div>
             ) : error ? (
               <div className="space-y-2">
-                <p className="text-sm text-rose-600">{error}</p>
+                <p className="text-sm text-rose-600 dark:text-rose-400">{error}</p>
                 <button
                   onClick={fetchInsights}
-                  className="flex items-center gap-1.5 text-sm text-sand-600 hover:text-sand-800 transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-sand-600 dark:text-sand-400 hover:text-sand-800 dark:hover:text-sand-300 transition-colors"
                 >
                   <RefreshCw size={12} />
                   Retry
@@ -107,7 +107,7 @@ export default function AiInsightsPanel({ contact }: AiInsightsPanelProps) {
               </div>
             ) : (
               <>
-                <div className="text-sm text-sand-700 leading-relaxed whitespace-pre-wrap">
+                <div className="text-sm text-sand-700 dark:text-sand-300 leading-relaxed whitespace-pre-wrap">
                   {completion}
                   {isLoading && (
                     <span className="inline-block w-[5px] h-[15px] bg-amber-400 ml-0.5 animate-pulse rounded-sm align-text-bottom" />
@@ -116,7 +116,7 @@ export default function AiInsightsPanel({ contact }: AiInsightsPanelProps) {
                 {hasLoaded && !isLoading && (
                   <button
                     onClick={fetchInsights}
-                    className="flex items-center gap-1.5 mt-3 text-xs text-sand-400 hover:text-sand-600 transition-colors"
+                    className="flex items-center gap-1.5 mt-3 text-xs text-sand-400 dark:text-sand-500 hover:text-sand-600 dark:hover:text-sand-400 transition-colors"
                   >
                     <RefreshCw size={12} />
                     Refresh

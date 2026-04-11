@@ -26,16 +26,16 @@ export default async function EditContactPage({ params }: PageProps) {
       <div className="mb-6">
         <Link
           href={`/contacts/${params.id}`}
-          className="inline-flex items-center gap-1.5 text-sm text-sand-500 hover:text-sand-700 transition-colors mb-4"
+          className="inline-flex items-center gap-1.5 text-sm text-sand-500 hover:text-sand-700 dark:hover:text-sand-300 transition-colors mb-4"
         >
           <ArrowLeft size={15} />
           Back to {contact.name}
         </Link>
-        <h1 className="text-2xl font-bold text-sand-900 tracking-tight">Edit contact</h1>
-        <p className="text-sand-500 text-sm mt-1">Update {contact.name}'s information.</p>
+        <h1 className="text-2xl font-bold text-sand-900 dark:text-white tracking-tight">Edit contact</h1>
+        <p className="text-sand-500 dark:text-sand-400 text-sm mt-1">Update {contact.name}'s information.</p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-sand-100 shadow-card p-6">
+      <div className="bg-white dark:bg-sand-900/50 rounded-2xl border border-sand-100 dark:border-white/[0.06] shadow-card p-6">
         <ContactForm contact={contact} />
       </div>
     </div>

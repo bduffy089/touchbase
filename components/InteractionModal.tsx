@@ -64,15 +64,15 @@ export default function InteractionModal({ contactId, contactName, onClose }: In
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-modal w-full max-w-md animate-slide-up">
-        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-sand-200">
+      <div className="relative bg-white dark:bg-sand-900 rounded-2xl shadow-modal w-full max-w-md animate-slide-up border border-sand-100 dark:border-white/[0.08]">
+        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-sand-200 dark:border-white/[0.06]">
           <div>
-            <h2 className="text-base font-semibold text-sand-900">Log interaction</h2>
-            <p className="text-sm text-sand-500 mt-0.5">with {contactName}</p>
+            <h2 className="text-base font-semibold text-sand-900 dark:text-white">Log interaction</h2>
+            <p className="text-sm text-sand-500 dark:text-sand-400 mt-0.5">with {contactName}</p>
           </div>
           <button
             onClick={onClose}
-            className="text-sand-400 hover:text-sand-600 transition-colors p-1 rounded-lg hover:bg-sand-100"
+            className="text-sand-400 hover:text-sand-600 dark:hover:text-sand-200 transition-colors p-1 rounded-lg hover:bg-sand-100 dark:hover:bg-white/[0.06]"
           >
             <X size={18} />
           </button>
@@ -81,7 +81,7 @@ export default function InteractionModal({ contactId, contactName, onClose }: In
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
           {/* Type selector */}
           <div>
-            <label className="block text-sm font-medium text-sand-700 mb-2">Type</label>
+            <label className="block text-sm font-medium text-sand-700 dark:text-sand-300 mb-2">Type</label>
             <div className="flex gap-2 flex-wrap">
               {INTERACTION_TYPES.map(({ value, label, icon }) => (
                 <button
@@ -91,7 +91,7 @@ export default function InteractionModal({ contactId, contactName, onClose }: In
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
                     type === value
                       ? 'bg-brand-500 text-white border-brand-500'
-                      : 'bg-white text-sand-600 border-sand-200 hover:border-sand-300 hover:bg-sand-50'
+                      : 'bg-white dark:bg-sand-900/50 text-sand-600 dark:text-sand-300 border-sand-200 dark:border-white/[0.08] hover:border-sand-300 dark:hover:border-white/20 hover:bg-sand-50 dark:hover:bg-white/[0.04]'
                   }`}
                 >
                   {icon}
@@ -103,7 +103,7 @@ export default function InteractionModal({ contactId, contactName, onClose }: In
 
           {/* Date */}
           <div>
-            <label htmlFor="date" className="block text-sm font-medium text-sand-700 mb-1.5">
+            <label htmlFor="date" className="block text-sm font-medium text-sand-700 dark:text-sand-300 mb-1.5">
               Date
             </label>
             <input
@@ -112,13 +112,13 @@ export default function InteractionModal({ contactId, contactName, onClose }: In
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-sand-200 rounded-lg text-sm text-sand-900 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors"
+              className="w-full px-3 py-2 border border-sand-200 dark:border-white/[0.08] rounded-lg text-sm text-sand-900 dark:text-sand-200 bg-white dark:bg-sand-900/50 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors"
             />
           </div>
 
           {/* Note */}
           <div>
-            <label htmlFor="note" className="block text-sm font-medium text-sand-700 mb-1.5">
+            <label htmlFor="note" className="block text-sm font-medium text-sand-700 dark:text-sand-300 mb-1.5">
               Note <span className="text-sand-400 font-normal">(optional)</span>
             </label>
             <textarea
@@ -127,19 +127,19 @@ export default function InteractionModal({ contactId, contactName, onClose }: In
               onChange={(e) => setNote(e.target.value)}
               rows={3}
               placeholder="What did you talk about?"
-              className="w-full px-3 py-2 border border-sand-200 rounded-lg text-sm text-sand-900 placeholder:text-sand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors resize-none"
+              className="w-full px-3 py-2 border border-sand-200 dark:border-white/[0.08] rounded-lg text-sm text-sand-900 dark:text-sand-200 placeholder:text-sand-400 dark:placeholder:text-sand-600 bg-white dark:bg-sand-900/50 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors resize-none"
             />
           </div>
 
           {error && (
-            <p className="text-sm text-rose-600 bg-rose-50 px-3 py-2 rounded-lg">{error}</p>
+            <p className="text-sm text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 px-3 py-2 rounded-lg">{error}</p>
           )}
 
           <div className="flex justify-end gap-2 pt-1">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-sand-600 hover:text-sand-800 hover:bg-sand-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-sand-600 dark:text-sand-300 hover:text-sand-800 dark:hover:text-white hover:bg-sand-100 dark:hover:bg-white/[0.06] rounded-lg transition-colors"
             >
               Cancel
             </button>

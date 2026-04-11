@@ -34,8 +34,8 @@ export default async function ContactsPage({ searchParams }: PageProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-white tracking-tight">Contacts</h1>
-            <p className="text-sand-400 text-sm mt-1">
+            <h1 className="text-2xl font-bold text-sand-900 dark:text-white tracking-tight">Contacts</h1>
+            <p className="text-sand-500 dark:text-sand-400 text-sm mt-1">
               {contacts.length} contact{contacts.length !== 1 ? 's' : ''}
               {q && ` matching "${q}"`}
             </p>
@@ -43,7 +43,7 @@ export default async function ContactsPage({ searchParams }: PageProps) {
           <div className="flex items-center gap-2">
             <Link
               href="/contacts/import"
-              className="flex items-center gap-2 px-4 py-2 text-brand-400 border border-brand-500/30 rounded-xl text-sm font-semibold hover:bg-brand-500/10 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-brand-500 dark:text-brand-400 border border-brand-500/30 rounded-xl text-sm font-semibold hover:bg-brand-500/10 transition-colors"
             >
               <FileDown size={16} />
               Import
@@ -74,8 +74,8 @@ export default async function ContactsPage({ searchParams }: PageProps) {
           </div>
         ) : (
           <div className="text-center py-20">
-            <UserX size={40} className="text-sand-600 mx-auto mb-3" />
-            <p className="font-medium text-sand-300">No contacts found</p>
+            <UserX size={40} className="text-sand-400 dark:text-sand-600 mx-auto mb-3" />
+            <p className="font-medium text-sand-600 dark:text-sand-300">No contacts found</p>
             {(q || tagId) ? (
               <p className="text-sm text-sand-500 mt-1">
                 Try adjusting your search or filter.
@@ -101,10 +101,10 @@ function ContactCard({ contact }: { contact: ContactWithStatus }) {
   const isUpcoming = contact.days_overdue <= 0 && contact.days_overdue > -7
 
   const statusColor = isOverdue
-    ? 'bg-rose-500/15 text-rose-400'
+    ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400'
     : isUpcoming
-      ? 'bg-amber-500/15 text-amber-400'
-      : 'bg-emerald-500/15 text-emerald-400'
+      ? 'bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400'
+      : 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
 
   const statusText = isOverdue
     ? `${Math.round(contact.days_overdue)}d overdue`
@@ -117,12 +117,12 @@ function ContactCard({ contact }: { contact: ContactWithStatus }) {
   return (
     <Link
       href={`/contacts/${contact.id}`}
-      className="bg-sand-900/50 rounded-xl border border-white/[0.06] p-4 hover:border-brand-500/30 hover:bg-sand-800/60 transition-all group flex flex-col gap-3"
+      className="bg-white dark:bg-sand-900/50 rounded-xl border border-sand-200 dark:border-white/[0.06] p-4 hover:border-brand-500/30 hover:bg-sand-50 dark:hover:bg-sand-800/60 transition-all group flex flex-col gap-3"
     >
       <div className="flex items-start gap-3">
         <Avatar name={contact.name} size="md" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-sand-100 group-hover:text-white transition-colors truncate">
+          <p className="text-sm font-semibold text-sand-800 dark:text-sand-100 group-hover:text-sand-900 dark:group-hover:text-white transition-colors truncate">
             {contact.name}
           </p>
           {contact.company && (
@@ -143,7 +143,7 @@ function ContactCard({ contact }: { contact: ContactWithStatus }) {
         </div>
       )}
 
-      <div className="flex items-center justify-between pt-1 border-t border-white/[0.04]">
+      <div className="flex items-center justify-between pt-1 border-t border-sand-100 dark:border-white/[0.04]">
         <div className="text-xs text-sand-500">
           {contact.last_interaction_date
             ? formatDaysAgo(contact.days_since)

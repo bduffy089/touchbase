@@ -65,12 +65,12 @@ export default function CadenceMismatchBanner({ contact, onCadenceUpdated }: Cad
   if (loading) return null
   if (error) {
     return (
-      <div className="bg-white rounded-xl border border-sand-100 shadow-card px-4 py-3">
+      <div className="bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card px-4 py-3">
         <div className="flex items-center justify-between">
-          <p className="text-sm text-rose-600">{error}</p>
+          <p className="text-sm text-rose-600 dark:text-rose-400">{error}</p>
           <button
             onClick={fetchSuggestion}
-            className="flex items-center gap-1 text-xs text-sand-500 hover:text-sand-700 transition-colors"
+            className="flex items-center gap-1 text-xs text-sand-500 hover:text-sand-700 dark:hover:text-sand-300 transition-colors"
           >
             <RefreshCw size={12} />
             Retry
@@ -82,21 +82,21 @@ export default function CadenceMismatchBanner({ contact, onCadenceUpdated }: Cad
   if (!suggestion?.hasMismatch) return null
 
   return (
-    <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200/60 shadow-card px-4 py-3">
+    <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-500/10 dark:to-orange-500/10 rounded-xl border border-amber-200/60 dark:border-amber-500/20 shadow-card px-4 py-3">
       <div className="flex items-start gap-3">
-        <div className="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
-          <Activity size={14} className="text-amber-600" />
+        <div className="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+          <Activity size={14} className="text-amber-600 dark:text-amber-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-sand-800">Cadence mismatch</p>
-          <p className="text-sm text-sand-600 mt-0.5">{suggestion.suggestion}</p>
-          <div className="flex items-center gap-3 mt-2 text-xs text-sand-500">
+          <p className="text-sm font-semibold text-sand-800 dark:text-sand-100">Cadence mismatch</p>
+          <p className="text-sm text-sand-600 dark:text-sand-400 mt-0.5">{suggestion.suggestion}</p>
+          <div className="flex items-center gap-3 mt-2 text-xs text-sand-500 dark:text-sand-400">
             <span>
-              Set: <span className="font-medium text-sand-700">every {suggestion.currentCadence}d</span>
+              Set: <span className="font-medium text-sand-700 dark:text-sand-200">every {suggestion.currentCadence}d</span>
             </span>
-            <span className="text-sand-300">vs</span>
+            <span className="text-sand-300 dark:text-sand-600">vs</span>
             <span>
-              Actual: <span className="font-medium text-sand-700">every {suggestion.actualAvgDays}d</span>
+              Actual: <span className="font-medium text-sand-700 dark:text-sand-200">every {suggestion.actualAvgDays}d</span>
             </span>
           </div>
           <div className="flex items-center gap-2 mt-3">
@@ -110,7 +110,7 @@ export default function CadenceMismatchBanner({ contact, onCadenceUpdated }: Cad
             </button>
             <button
               onClick={() => setDismissed(true)}
-              className="flex items-center gap-1 px-2 py-1.5 text-xs text-sand-500 hover:text-sand-700 transition-colors"
+              className="flex items-center gap-1 px-2 py-1.5 text-xs text-sand-500 hover:text-sand-700 dark:hover:text-sand-300 transition-colors"
             >
               <X size={12} />
               Dismiss

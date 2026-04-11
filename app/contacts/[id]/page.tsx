@@ -29,11 +29,11 @@ const INTERACTION_ICONS: Record<string, React.ReactNode> = {
 }
 
 const INTERACTION_COLORS: Record<string, string> = {
-  call:        'bg-blue-100 text-blue-600',
-  email:       'bg-violet-100 text-violet-600',
-  text:        'bg-emerald-100 text-emerald-600',
-  'in-person': 'bg-amber-100 text-amber-600',
-  other:       'bg-sand-100 text-sand-500',
+  call:        'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400',
+  email:       'bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400',
+  text:        'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400',
+  'in-person': 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400',
+  other:       'bg-sand-100 text-sand-500 dark:bg-sand-800 dark:text-sand-400',
 }
 
 export default function ContactDetailPage() {
@@ -83,9 +83,9 @@ export default function ContactDetailPage() {
     return (
       <div className="px-8 py-8">
         <div className="animate-pulse space-y-4 max-w-3xl">
-          <div className="h-6 bg-sand-200 rounded w-32" />
-          <div className="h-20 bg-sand-100 rounded-2xl" />
-          <div className="h-40 bg-sand-100 rounded-2xl" />
+          <div className="h-6 bg-sand-200 dark:bg-sand-800 rounded w-32" />
+          <div className="h-20 bg-sand-100 dark:bg-sand-900/50 rounded-2xl" />
+          <div className="h-40 bg-sand-100 dark:bg-sand-900/50 rounded-2xl" />
         </div>
       </div>
     )
@@ -112,31 +112,31 @@ export default function ContactDetailPage() {
       : 'Up to date'
 
   const statusStyle = isOverdue
-    ? 'bg-rose-100 text-rose-600'
+    ? 'bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-400'
     : isUpcoming
-      ? 'bg-amber-100 text-amber-600'
-      : 'bg-emerald-100 text-emerald-600'
+      ? 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400'
+      : 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400'
 
   return (
     <div className="px-8 py-8 max-w-3xl">
       {/* Back */}
       <Link
         href="/contacts"
-        className="inline-flex items-center gap-1.5 text-sm text-sand-500 hover:text-sand-700 transition-colors mb-6"
+        className="inline-flex items-center gap-1.5 text-sm text-sand-500 hover:text-sand-700 dark:hover:text-sand-300 transition-colors mb-6"
       >
         <ArrowLeft size={15} />
         All contacts
       </Link>
 
       {/* Hero card */}
-      <div className="bg-white rounded-2xl border border-sand-100 shadow-card p-6 mb-4">
+      <div className="bg-white dark:bg-sand-900/50 rounded-2xl border border-sand-100 dark:border-white/[0.06] shadow-card p-6 mb-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-4">
             <Avatar name={contact.name} size="xl" />
             <div>
-              <h1 className="text-xl font-bold text-sand-900 tracking-tight">{contact.name}</h1>
+              <h1 className="text-xl font-bold text-sand-900 dark:text-white tracking-tight">{contact.name}</h1>
               {contact.company && (
-                <p className="text-sand-500 text-sm mt-0.5 flex items-center gap-1.5">
+                <p className="text-sand-500 dark:text-sand-400 text-sm mt-0.5 flex items-center gap-1.5">
                   <Building2 size={13} />
                   {contact.company}
                 </p>
@@ -154,7 +154,7 @@ export default function ContactDetailPage() {
             {aiAvailable && (
               <button
                 onClick={() => setShowSuggestion((prev) => !prev)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-brand-50 text-brand-600 rounded-lg hover:bg-brand-100 transition-colors border border-brand-200"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-brand-50 text-brand-600 rounded-lg hover:bg-brand-100 transition-colors border border-brand-200 dark:bg-brand-500/10 dark:text-brand-400 dark:border-brand-500/30 dark:hover:bg-brand-500/20"
               >
                 <Sparkles size={14} />
                 Suggest
@@ -169,7 +169,7 @@ export default function ContactDetailPage() {
             </button>
             <Link
               href={`/contacts/${contact.id}/edit`}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sand-600 hover:text-sand-800 hover:bg-sand-100 rounded-lg transition-colors border border-sand-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sand-600 dark:text-sand-300 hover:text-sand-800 dark:hover:text-white hover:bg-sand-100 dark:hover:bg-white/[0.06] rounded-lg transition-colors border border-sand-200 dark:border-white/[0.08]"
             >
               <Edit2 size={14} />
               Edit
@@ -179,19 +179,19 @@ export default function ContactDetailPage() {
         </div>
 
         {/* Status bar */}
-        <div className="mt-4 pt-4 border-t border-sand-100 flex items-center gap-3 flex-wrap text-sm">
+        <div className="mt-4 pt-4 border-t border-sand-100 dark:border-white/[0.06] flex items-center gap-3 flex-wrap text-sm">
           <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${statusStyle}`}>
             {statusText}
           </span>
-          <span className="text-sand-400">·</span>
-          <span className="text-sand-500 flex items-center gap-1.5">
+          <span className="text-sand-300 dark:text-sand-600">·</span>
+          <span className="text-sand-500 dark:text-sand-400 flex items-center gap-1.5">
             <CalendarClock size={13} />
             {formatCadence(contact.cadence_days)}
           </span>
           {contact.last_interaction_date && (
             <>
-              <span className="text-sand-400">·</span>
-              <span className="text-sand-500">Last contact: {formatDaysAgo(contact.days_since)}</span>
+              <span className="text-sand-300 dark:text-sand-600">·</span>
+              <span className="text-sand-500 dark:text-sand-400">Last contact: {formatDaysAgo(contact.days_since)}</span>
             </>
           )}
         </div>
@@ -223,39 +223,39 @@ export default function ContactDetailPage() {
         {contact.email && (
           <a
             href={`mailto:${contact.email}`}
-            className="flex items-center gap-3 bg-white rounded-xl border border-sand-100 shadow-card px-4 py-3 hover:border-sand-200 transition-colors group"
+            className="flex items-center gap-3 bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card px-4 py-3 hover:border-sand-200 dark:hover:border-white/[0.1] transition-colors group"
           >
-            <div className="w-8 h-8 rounded-lg bg-sand-100 flex items-center justify-center text-sand-500 group-hover:bg-brand-100 group-hover:text-brand-600 transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-sand-100 dark:bg-white/[0.06] flex items-center justify-center text-sand-500 dark:text-sand-400 group-hover:bg-brand-100 dark:group-hover:bg-brand-500/15 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
               <Mail size={14} />
             </div>
             <div className="min-w-0">
               <p className="text-[11px] text-sand-400 font-medium uppercase tracking-wide">Email</p>
-              <p className="text-sm text-sand-700 truncate">{contact.email}</p>
+              <p className="text-sm text-sand-700 dark:text-sand-300 truncate">{contact.email}</p>
             </div>
           </a>
         )}
         {contact.phone && (
           <a
             href={`tel:${contact.phone}`}
-            className="flex items-center gap-3 bg-white rounded-xl border border-sand-100 shadow-card px-4 py-3 hover:border-sand-200 transition-colors group"
+            className="flex items-center gap-3 bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card px-4 py-3 hover:border-sand-200 dark:hover:border-white/[0.1] transition-colors group"
           >
-            <div className="w-8 h-8 rounded-lg bg-sand-100 flex items-center justify-center text-sand-500 group-hover:bg-brand-100 group-hover:text-brand-600 transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-sand-100 dark:bg-white/[0.06] flex items-center justify-center text-sand-500 dark:text-sand-400 group-hover:bg-brand-100 dark:group-hover:bg-brand-500/15 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
               <Phone size={14} />
             </div>
             <div>
               <p className="text-[11px] text-sand-400 font-medium uppercase tracking-wide">Phone</p>
-              <p className="text-sm text-sand-700">{contact.phone}</p>
+              <p className="text-sm text-sand-700 dark:text-sand-300">{contact.phone}</p>
             </div>
           </a>
         )}
         {contact.how_met && (
-          <div className="flex items-center gap-3 bg-white rounded-xl border border-sand-100 shadow-card px-4 py-3 sm:col-span-2">
-            <div className="w-8 h-8 rounded-lg bg-sand-100 flex items-center justify-center text-sand-500 shrink-0">
+          <div className="flex items-center gap-3 bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card px-4 py-3 sm:col-span-2">
+            <div className="w-8 h-8 rounded-lg bg-sand-100 dark:bg-white/[0.06] flex items-center justify-center text-sand-500 dark:text-sand-400 shrink-0">
               <Handshake size={14} />
             </div>
             <div className="min-w-0">
               <p className="text-[11px] text-sand-400 font-medium uppercase tracking-wide">How you met</p>
-              <p className="text-sm text-sand-700">{contact.how_met}</p>
+              <p className="text-sm text-sand-700 dark:text-sand-300">{contact.how_met}</p>
             </div>
           </div>
         )}
@@ -263,19 +263,19 @@ export default function ContactDetailPage() {
 
       {/* Notes */}
       {contact.notes && (
-        <div className="bg-white rounded-xl border border-sand-100 shadow-card p-4 mb-4">
+        <div className="bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
             <MessageCircle size={13} className="text-sand-400" />
             <p className="text-[11px] font-medium uppercase tracking-wide text-sand-400">Notes</p>
           </div>
-          <p className="text-sm text-sand-700 leading-relaxed whitespace-pre-wrap">{contact.notes}</p>
+          <p className="text-sm text-sand-700 dark:text-sand-300 leading-relaxed whitespace-pre-wrap">{contact.notes}</p>
         </div>
       )}
 
       {/* Interaction history */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-sand-700 uppercase tracking-wider">Interaction history</h2>
+          <h2 className="text-sm font-semibold text-sand-600 dark:text-sand-400 uppercase tracking-wider">Interaction history</h2>
           <button
             onClick={() => setShowModal(true)}
             className="text-xs text-brand-500 hover:text-brand-600 font-medium flex items-center gap-1 transition-colors"
@@ -286,7 +286,7 @@ export default function ContactDetailPage() {
         </div>
 
         {interactions.length > 0 ? (
-          <div className="bg-white rounded-xl border border-sand-100 shadow-card divide-y divide-sand-50">
+          <div className="bg-white dark:bg-sand-900/50 rounded-xl border border-sand-100 dark:border-white/[0.06] shadow-card divide-y divide-sand-50 dark:divide-white/[0.04]">
             {interactions.map((interaction) => (
               <div key={interaction.id} className="flex items-start gap-3 px-4 py-3.5 group">
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${INTERACTION_COLORS[interaction.type]}`}>
@@ -294,13 +294,13 @@ export default function ContactDetailPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-sand-700 capitalize">
+                    <span className="text-xs font-semibold text-sand-700 dark:text-sand-300 capitalize">
                       {interaction.type.replace('-', ' ')}
                     </span>
                     <span className="text-xs text-sand-400">{formatDate(interaction.date)}</span>
                   </div>
                   {interaction.note && (
-                    <p className="text-sm text-sand-600 mt-1 leading-relaxed">{interaction.note}</p>
+                    <p className="text-sm text-sand-600 dark:text-sand-400 mt-1 leading-relaxed">{interaction.note}</p>
                   )}
                 </div>
                 <DeleteInteractionButton interactionId={interaction.id} />
@@ -308,7 +308,7 @@ export default function ContactDetailPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-dashed border-sand-200 p-6 text-center">
+          <div className="bg-white dark:bg-sand-900/50 rounded-xl border border-dashed border-sand-200 dark:border-white/[0.08] p-6 text-center">
             <p className="text-sm text-sand-400">No interactions logged yet.</p>
             <button
               onClick={() => setShowModal(true)}

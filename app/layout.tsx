@@ -6,6 +6,7 @@ import './globals.css'
 import Sidebar from '@/components/Sidebar'
 import DemoBanner from '@/components/DemoBanner'
 import CommandPalette from '@/components/CommandPalette'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import { getDb, getContactsQuery } from '@/lib/db'
 import { parseTagsFromRow } from '@/lib/utils'
 
@@ -30,16 +31,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const overdueCount = contacts.filter((c) => c.days_overdue > 0).length
 
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} dark`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.classList.toggle('dark',t==='dark')})()`,
+          }}
+        />
+      </head>
       <body>
-        <DemoBanner />
-        <CommandPalette />
-        <div className="flex min-h-screen">
-          <Sidebar totalContacts={totalContacts} overdueCount={overdueCount} />
-          <main className="flex-1 ml-56 min-h-screen">
-            {children}
-          </main>
-        </div>
+        <ThemeProvider>
+          <DemoBanner />
+          <CommandPalette />
+          <div className="flex min-h-screen">
+            <Sidebar totalContacts={totalContacts} overdueCount={overdueCount} />
+            <main className="flex-1 ml-56 min-h-screen">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )

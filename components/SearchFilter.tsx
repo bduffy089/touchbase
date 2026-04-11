@@ -42,12 +42,12 @@ export default function SearchFilter({ tags, currentQ, currentTagId }: SearchFil
           defaultValue={currentQ}
           onChange={(e) => updateParam('q', e.target.value)}
           placeholder="Search by name, company, or email…"
-          className={`w-full pl-9 pr-8 py-2.5 border border-white/[0.08] rounded-xl text-sm text-sand-100 placeholder:text-sand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500/50 transition-colors bg-sand-900/50 ${isPending ? 'opacity-60' : ''}`}
+          className={`w-full pl-9 pr-8 py-2.5 border border-sand-200 dark:border-white/[0.08] rounded-xl text-sm text-sand-800 dark:text-sand-100 placeholder:text-sand-400 dark:placeholder:text-sand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500/50 transition-colors bg-white dark:bg-sand-900/50 ${isPending ? 'opacity-60' : ''}`}
         />
         {currentQ && (
           <button
             onClick={() => updateParam('q', '')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-sand-500 hover:text-sand-300 transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-sand-400 dark:text-sand-500 hover:text-sand-600 dark:hover:text-sand-300 transition-colors"
           >
             <X size={14} />
           </button>
@@ -62,7 +62,7 @@ export default function SearchFilter({ tags, currentQ, currentTagId }: SearchFil
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
               !currentTagId
                 ? 'bg-brand-500 text-white border-brand-500'
-                : 'bg-transparent text-sand-400 border-white/[0.08] hover:border-white/20 hover:text-sand-300'
+                : 'bg-transparent text-sand-500 dark:text-sand-400 border-sand-200 dark:border-white/[0.08] hover:border-sand-300 dark:hover:border-white/20 hover:text-sand-700 dark:hover:text-sand-300'
             }`}
           >
             All

@@ -23,7 +23,7 @@ export default function DeleteContactButton({ contactId, contactName }: { contac
   if (confirming) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-sm text-sand-600">Delete {contactName}?</span>
+        <span className="text-sm text-sand-600 dark:text-sand-400">Delete {contactName}?</span>
         <button
           onClick={handleDelete}
           disabled={loading}
@@ -33,7 +33,7 @@ export default function DeleteContactButton({ contactId, contactName }: { contac
         </button>
         <button
           onClick={() => setConfirming(false)}
-          className="px-3 py-1.5 text-sm font-medium text-sand-600 hover:text-sand-800 hover:bg-sand-100 rounded-lg transition-colors"
+          className="px-3 py-1.5 text-sm font-medium text-sand-600 dark:text-sand-300 hover:text-sand-800 dark:hover:text-white hover:bg-sand-100 dark:hover:bg-white/[0.06] rounded-lg transition-colors"
         >
           Cancel
         </button>
@@ -44,7 +44,7 @@ export default function DeleteContactButton({ contactId, contactName }: { contac
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sand-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors border border-sand-200 hover:border-rose-200"
+      className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sand-500 dark:text-sand-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-colors border border-sand-200 dark:border-white/[0.08] hover:border-rose-200 dark:hover:border-rose-500/30"
     >
       <Trash2 size={14} />
       Delete
