@@ -11,7 +11,6 @@
 
 <p align="center">
   <a href="#features">Features</a> &nbsp;·&nbsp;
-  <a href="#getting-started">Getting Started</a> &nbsp;·&nbsp;
   <a href="#stack">Stack</a>
 </p>
 
@@ -62,20 +61,6 @@ Tags, notes, configurable check-in cadences, full interaction timeline (calls, e
 ---
 
 **AI features:** Add `ANTHROPIC_API_KEY=your_key` to `.env.local` to enable outreach suggestions, relationship insights, and LinkedIn import.
-
----
-
-## Getting Started
-
-```bash
-git clone https://github.com/bduffy089/touchbase.git
-cd touchbase
-npm install
-cp .env.example .env.local   # add ANTHROPIC_API_KEY for AI features
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
