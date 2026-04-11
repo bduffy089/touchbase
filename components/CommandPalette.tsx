@@ -205,12 +205,12 @@ export default function CommandPalette() {
                       data-active={isActive}
                       onClick={() => item.href && navigate(item.href)}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                        isActive ? 'bg-sand-800' : 'hover:bg-sand-900'
+                        isActive ? 'bg-sand-100 dark:bg-sand-800' : 'hover:bg-sand-50 dark:hover:bg-sand-900'
                       }`}
                     >
                       {item.contact && <Avatar name={item.contact.name} size="sm" />}
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm text-sand-100 font-medium truncate">{item.label}</div>
+                        <div className="text-sm text-sand-800 dark:text-sand-100 font-medium truncate">{item.label}</div>
                         {item.sublabel && (
                           <div className="text-xs text-sand-500 truncate">{item.sublabel}</div>
                         )}
@@ -242,11 +242,11 @@ export default function CommandPalette() {
                       data-active={isActive}
                       onClick={() => item.href && navigate(item.href)}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                        isActive ? 'bg-sand-800' : 'hover:bg-sand-900'
+                        isActive ? 'bg-sand-100 dark:bg-sand-800' : 'hover:bg-sand-50 dark:hover:bg-sand-900'
                       }`}
                     >
                       <span className="text-brand-400">{item.icon}</span>
-                      <span className="text-sm text-sand-200">{item.label}</span>
+                      <span className="text-sm text-sand-700 dark:text-sand-200">{item.label}</span>
                       <span className="ml-auto text-[11px] text-sand-600">action</span>
                     </button>
                   )
@@ -270,7 +270,7 @@ export default function CommandPalette() {
                       data-active={isActive}
                       onClick={() => item.href && navigate(item.href)}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                        isActive ? 'bg-sand-800' : 'hover:bg-sand-900'
+                        isActive ? 'bg-sand-100 dark:bg-sand-800' : 'hover:bg-sand-50 dark:hover:bg-sand-900'
                       }`}
                     >
                       <span className="text-sand-500">{item.icon}</span>

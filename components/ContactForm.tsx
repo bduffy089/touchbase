@@ -328,7 +328,7 @@ export default function ContactForm({ contact }: ContactFormProps) {
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-5 py-2.5 text-sm font-medium text-sand-600 dark:text-sand-300 hover:text-sand-800 dark:hover:text-white hover:bg-sand-100 dark:hover:bg-white/[0.06] rounded-xl transition-colors"
+          className="px-5 py-2.5 text-sm font-medium text-sand-600 dark:text-sand-400 hover:text-sand-800 dark:hover:text-sand-200 hover:bg-sand-100 dark:hover:bg-white/[0.06] rounded-xl transition-colors"
         >
           Cancel
         </button>
