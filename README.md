@@ -25,17 +25,25 @@ Generic CRMs are overkill for personal networking. I wanted something fast, priv
 
 ## Features
 
-### ⚡ Command Palette
-Hit `Cmd+K` to search contacts, log interactions, and navigate — keyboard-first, no clicking required.
-
 ### 🤖 AI-Powered Outreach
-Generate personalized LinkedIn messages, emails, or texts based on your actual relationship history. Powered by Claude (Anthropic). Set your API key once, use it everywhere.
+Generate personalized LinkedIn messages, emails, or texts based on your actual relationship history. One click — context-aware, not generic.
 
-### 🧠 AI Relationship Insights
-Expand any contact to get instant AI-generated context: days since last contact, key topics from recent notes, and suggested conversation openers — streamed in real time.
+<p align="center">
+  <img src="public/screenshots/ai-outreach.png" alt="AI Outreach Suggestions" width="800" />
+</p>
 
 ### 📥 LinkedIn Import
-Paste a LinkedIn profile URL → AI parses it into a structured contact. No manual data entry.
+Paste a LinkedIn profile → AI parses it into a structured contact. No manual data entry. Works with single or multiple profiles at once.
+
+<p align="center">
+  <img src="public/screenshots/linkedin-import.png" alt="LinkedIn Import" width="800" />
+</p>
+
+### 🧠 AI Relationship Insights
+Expand any contact to get instant AI-generated context: days since last touchpoint, key topics from your notes, and suggested conversation openers — streamed in real time.
+
+### ⚡ Command Palette
+Hit `Cmd+K` to search contacts, log interactions, and navigate — keyboard-first, no clicking required.
 
 ### 📊 Smart Dashboard
 See who's overdue for a check-in at a glance. Tracks interaction cadence per contact and surfaces the ones falling through the cracks.
@@ -54,6 +62,20 @@ Tags, notes, configurable check-in cadences, full interaction timeline (calls, e
 ---
 
 **AI features:** Add `ANTHROPIC_API_KEY=your_key` to `.env.local` to enable outreach suggestions, relationship insights, and LinkedIn import.
+
+---
+
+## Getting Started
+
+```bash
+git clone https://github.com/bduffy089/touchbase.git
+cd touchbase
+npm install
+cp .env.example .env.local   # add ANTHROPIC_API_KEY for AI features
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
